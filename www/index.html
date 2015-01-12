@@ -20,17 +20,23 @@
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
   </head>
-  <body ng-app="bamboo" ng-controller="FeedsController">
-    <ion-header-bar class="bar-dark">
-      <h1 class="title">Title</h1>
-      <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
-    </ion-header-bar>
 
+  <body ng-app="bamboo" ng-controller="FeedsController">
     <ion-side-menus>
-      <ion-side-menu-content ng-controller="ContentController">
+
+      <ion-side-menu-content>
+        <ion-header-bar class="bar-positive">
+          <h1 class="title">Stacks</h1>
+          <div class="buttons">
+            <button menu-toggle="right" class="button button-icon icon ion-navicon" ng-click="toggleRightSideMenu()"></button>
+          </div>
+        </ion-header-bar>
+
+        <ion-content>
+        </ion-content>
       </ion-side-menu-content>
 
-      <ion-side-menu side="right">
+      <ion-side-menu side="right" ng-controller="MenuController">
         <ion-list>
           <ion-item ng-repeat="feed in feeds">
             {{feed.name}}
@@ -38,6 +44,5 @@
         </ion-list>
       </ion-side-menu>
     </ion-side-menus>
-
   </body>
 </html>

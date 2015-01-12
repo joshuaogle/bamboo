@@ -1,5 +1,9 @@
 angular.module('bamboo.controllers', [])
 
+.controller('StacksController', function($scope, $stateParams, Stacks) {
+  $scope.stack = Stacks.get($stateParams.itemId);
+})
+
 .controller('FeedsController', function($scope, Feeds) {
   $scope.feeds = Feeds.all();
   $scope.remove = function(feed) {
@@ -7,16 +11,12 @@ angular.module('bamboo.controllers', [])
   }
 })
 
-.controller('ItemController', function($scope, $stateParams, Feeds) {
-  $scope.chat = Feeds.get($stateParams.itemId);
+.controller('ItemController', function($scope, $stateParams, Items) {
+  $scope.feed = Feeds.get($stateParams.itemId);
 })
 
-.controller('StacksController', function($scope, $stateParams, Feeds) {
-  $scope.stack = Stacks.get($stateParams.itemId);
-})
-
-.controller('ContentController', function($scope, $ionicSideMenuDelegate) {
-  $scope.toggleRight = function() {
+.controller('MenuController', function($scope, $stateParams, Feeds) {
+  $scope.toggleRightSideMenu = function() {
     $ionicSideMenuDelegate.toggleRight();
   };
 });
