@@ -24,15 +24,30 @@
   <body ng-app="bamboo" ng-controller="FeedsController">
     <ion-side-menus>
 
-      <ion-side-menu-content>
+      <ion-side-menu-content
+        edge-drag-threshold="false"
+        drag-content="false">
         <ion-header-bar class="bar-positive">
-          <h1 class="title">Stacks</h1>
+          <h1 class="title">Title</h1>
           <div class="buttons">
-            <button menu-toggle="right" class="button button-icon icon ion-navicon" ng-click="toggleRightSideMenu()"></button>
+            <button
+              menu-toggle="right"
+              class="button button-icon icon ion-navicon"
+              ng-click="toggleRightSideMenu()">
+            </button>
           </div>
         </ion-header-bar>
 
-        <ion-content>
+        <ion-content ng-controller="PostsController">
+          <ion-refresher on-refresh="doRefresh()">
+          </ion-refresher>
+
+          <ion-list>
+            Posts:
+            <ion-item ng-repeat="post in posts">
+              {{post.name}}
+            </ion-item>
+          </ion-list>
         </ion-content>
       </ion-side-menu-content>
 

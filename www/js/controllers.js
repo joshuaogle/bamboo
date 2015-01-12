@@ -11,8 +11,19 @@ angular.module('bamboo.controllers', [])
   }
 })
 
-.controller('ItemController', function($scope, $stateParams, Items) {
-  $scope.feed = Feeds.get($stateParams.itemId);
+.controller('PostsController', function($scope, Posts) {
+  $scope.posts = Posts.all();
+
+  $scope.doRefresh = function() {
+    $http.get('/new-items')
+    .success(function(newItems) {
+      $scope.items = newItems;
+    })
+    .finally(function() {
+      // Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
 })
 
 .controller('MenuController', function($scope, $stateParams, Feeds) {
