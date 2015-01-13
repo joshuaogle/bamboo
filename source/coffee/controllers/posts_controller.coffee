@@ -1,6 +1,8 @@
 class PostsController
-  constructor: ($scope, Posts) ->
-    $scope.posts = Posts.all()
+  constructor: ($scope, $http, Dribbble) ->
+    Dribbble.parseFeed().then (posts) ->
+      $scope.posts = posts.data
+
     $scope.doRefresh = ->
       $http
         .get("/new-items")
@@ -12,6 +14,7 @@ class PostsController
 angular.module('bamboo')
   .controller('PostsController', [
     '$scope'
-    'Posts'
+    '$http'
+    'Dribbble'
     PostsController
   ])

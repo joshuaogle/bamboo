@@ -18,7 +18,11 @@ angular.module("bamboo", ["ionic"]).run(function($ionicPlatform) {
       }
     }
   });
-  $urlRouterProvider.otherwise("stacks");
+  return $urlRouterProvider.otherwise("stacks");
+});
+
+angular.module('bamboo').constant('config', {
+  "dribbbleAccessToken": "916a8ccf0526e148068589aa369f00e34084a34be8ed525faf699c1ef963cd45"
 });
 
 var FeedsController;
@@ -53,8 +57,10 @@ angular.module('bamboo').controller('MenuController', ['$scope', '$ionicSideMenu
 var PostsController;
 
 PostsController = (function() {
-  function PostsController($scope, Posts) {
-    $scope.posts = Posts.all();
+  function PostsController($scope, $http, Dribbble) {
+    Dribbble.parseFeed().then(function(posts) {
+      return $scope.posts = posts.data;
+    });
     $scope.doRefresh = function() {
       return $http.get("/new-items").success(function(newItems) {
         return $scope.items = newItems;
@@ -68,7 +74,7 @@ PostsController = (function() {
 
 })();
 
-angular.module('bamboo').controller('PostsController', ['$scope', 'Posts', PostsController]);
+angular.module('bamboo').controller('PostsController', ['$scope', '$http', 'Dribbble', PostsController]);
 
 var StacksController;
 
@@ -82,6 +88,35 @@ StacksController = (function() {
 })();
 
 angular.module('bamboo').controller('StacksController', ['$scope', 'Stacks', StacksController]);
+
+var dribbbleFactory;
+
+dribbbleFactory = function($http, $q, $config) {
+  var Dribbble;
+  return new (Dribbble = (function() {
+    var deferred, dribbbleAPI;
+
+    function Dribbble() {}
+
+    deferred = $q.defer();
+
+    dribbbleAPI = "https://api.dribbble.com/v1/shots?access_token=" + $config.dribbbleAccessToken;
+
+    Dribbble.prototype.parseFeed = function() {
+      return $http.get(dribbbleAPI).success(function(data, status, headers, config) {
+        console.log(data);
+        return data;
+      }).error(function(data, status, headers, config) {
+        return console.error('Error fetching feed:', data);
+      });
+    };
+
+    return Dribbble;
+
+  })());
+};
+
+angular.module('bamboo').factory('Dribbble', ["$http", "$q", "config", dribbbleFactory]);
 
 var feedsFactory;
 
@@ -168,53 +203,3 @@ pageTitleFactory = function() {
 };
 
 angular.module('bamboo').factory('pageTitle', [pageTitleFactory]);
-
-var postsFactory;
-
-postsFactory = function() {
-  var Posts;
-  return new (Posts = (function() {
-    var posts;
-
-    function Posts() {}
-
-    posts = [
-      {
-        name: "1"
-      }, {
-        name: "1"
-      }, {
-        name: "2"
-      }, {
-        name: "3"
-      }, {
-        name: "4"
-      }
-    ];
-
-    Posts.prototype.all = function() {
-      return posts;
-    };
-
-    Posts.prototype.remove = function(item) {
-      return posts.splice(posts.indexOf(item), 1);
-    };
-
-    Posts.prototype.get = function(itemId) {
-      var i;
-      i = 0;
-      while (i < posts.length) {
-        if (posts[i].id === parseInt(itemId)) {
-          return posts[i];
-        }
-        i++;
-      }
-      return null;
-    };
-
-    return Posts;
-
-  })());
-};
-
-angular.module('bamboo').factory('Posts', [postsFactory]);

@@ -17,4 +17,3 @@ angular.module("bamboo", ["ionic"])
         controller: "FeedsController"
 
   $urlRouterProvider.otherwise "stacks"
-  return

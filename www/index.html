@@ -20,7 +20,11 @@
         drag-content="false">
         <div class="header-bar" ng-include src="'templates/_header.html'"></div>
 
-        <div ng-include src="'templates/_posts.html'"></div>
+        <ion-content class="has-header" ng-controller="PostsController">
+          <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+          <div ng-include src="'templates/feeds/dribbble/_index.html'"></div>
+        </ion-content>
+
       </ion-side-menu-content>
 
       <div class="side-menu" ng-include src="'templates/_menu.html'"></div>

@@ -7002,6 +7002,13 @@ a.button {
 .pane, .view {
   background: #FAFAFA; }
 
+.item img {
+  display: block; }
+
+a {
+  text-decoration: none;
+  color: black; }
+
 .side-menu .menu {
   background: #343D46; }
 .side-menu .list {
