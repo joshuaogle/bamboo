@@ -1,24 +1,5 @@
 angular.module("bamboo", ["ionic"]).run(function($ionicPlatform) {
   return $ionicPlatform.ready(function() {});
-}).config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider.state("stacks", {
-    url: "/stacks",
-    views: {
-      stacks: {
-        templateUrl: "templates/stacks.html",
-        controller: "StacksController"
-      }
-    }
-  }).state("feeds", {
-    url: "/feeds",
-    views: {
-      feeds: {
-        templateUrl: "templates/feeds.html",
-        controller: "FeedsController"
-      }
-    }
-  });
-  return $urlRouterProvider.otherwise("stacks");
 });
 
 angular.module('bamboo').constant('config', {
