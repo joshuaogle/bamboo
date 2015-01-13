@@ -1,12 +1,7 @@
 # Bamboo
-angular.module("bamboo", [
-  "ionic"
-  "bamboo.controllers"
-  "bamboo.services"
-]).run(($ionicPlatform) ->
-  $ionicPlatform.ready ->
-
-  return
+angular.module("bamboo", ["ionic"])
+  .run(($ionicPlatform) ->
+    $ionicPlatform.ready ->
 ).config ($stateProvider, $urlRouterProvider) ->
   $stateProvider.state("stacks",
     url: "/stacks"
