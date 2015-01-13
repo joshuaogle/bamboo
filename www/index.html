@@ -27,37 +27,12 @@
       <ion-side-menu-content
         edge-drag-threshold="false"
         drag-content="false">
-        <ion-header-bar class="bar-positive">
-          <h1 class="title">Title</h1>
-          <div class="buttons">
-            <button
-              menu-toggle="right"
-              class="button button-icon icon ion-navicon"
-              ng-click="toggleRightSideMenu()">
-            </button>
-          </div>
-        </ion-header-bar>
+        <div class="header-bar" ng-include src="'templates/_header.html'"></div>
 
-        <ion-content ng-controller="PostsController">
-          <ion-refresher on-refresh="doRefresh()">
-          </ion-refresher>
-
-          <ion-list>
-            Posts:
-            <ion-item ng-repeat="post in posts">
-              {{post.name}}
-            </ion-item>
-          </ion-list>
-        </ion-content>
+        <div ng-include src="'templates/_posts.html'"></div>
       </ion-side-menu-content>
 
-      <ion-side-menu side="right" ng-controller="MenuController">
-        <ion-list>
-          <ion-item ng-repeat="feed in feeds">
-            {{feed.name}}
-          </ion-item>
-        </ion-list>
-      </ion-side-menu>
+      <div class="side-menu" ng-include src="'templates/_menu.html'"></div>
     </ion-side-menus>
   </body>
 </html>
