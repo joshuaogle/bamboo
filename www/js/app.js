@@ -94,15 +94,20 @@ feedsFactory = function() {
 
     feeds = [
       {
-        name: "Dribbble"
+        name: "Dribbble",
+        "class": "dribbble"
       }, {
-        name: "Hacker News"
+        name: "Hacker News",
+        "class": "hacker_news"
       }, {
-        name: "Designer News"
+        name: "Designer News",
+        "class": "designer_news"
       }, {
-        name: "Behance"
+        name: "Behance",
+        "class": "behance"
       }, {
-        name: "Product Hunt"
+        name: "Product Hunt",
+        "class": "product_hunt"
       }
     ];
 

@@ -1,0 +1,52 @@
+.side-menu {
+  .menu {
+    background: $background-menu;
+  }
+
+  .list {
+    margin-top: 17px;
+
+    .item {
+      background: none;
+      border: none;
+      color: $light;
+    }
+  }
+
+  .toggle {
+    .track {
+      background-color: #232830;
+      border: none;
+    }
+
+    &.brand-dribbble {
+      input:checked + .track {
+        background-color: $dribbble;
+      }
+    }
+
+    &.brand-hacker_news {
+      input:checked + .track {
+        background-color: $hacker_news;
+      }
+    }
+
+    &.brand-designer_news {
+      input:checked + .track {
+        background-color: $designer_news;
+      }
+    }
+
+    &.brand-behance {
+      input:checked + .track {
+        background-color: $behance;
+      }
+    }
+
+    &.brand-product_hunt {
+      input:checked + .track {
+        background-color: $product_hunt;
+      }
+    }
+  }
+}

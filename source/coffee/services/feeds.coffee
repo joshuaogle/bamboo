@@ -3,18 +3,23 @@ feedsFactory = ->
     feeds = [
       {
         name: "Dribbble"
+        class: "dribbble"
       }
       {
         name: "Hacker News"
+        class: "hacker_news"
       }
       {
         name: "Designer News"
+        class: "designer_news"
       }
       {
         name: "Behance"
+        class: "behance"
       }
       {
         name: "Product Hunt"
+        class: "product_hunt"
       }
     ]
 
