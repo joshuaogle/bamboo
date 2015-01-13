@@ -1,7 +1,13 @@
 <ion-side-menu side="right" ng-controller="MenuController">
   <ion-list>
-    <ion-item ng-repeat="feed in feeds">
+    <ion-item ng-repeat="feed in feeds" class="item item-toggle">
       {{feed.name}}
+      <label class="toggle toggle-assertive">
+        <input type="checkbox">
+        <div class="track">
+          <div class="handle"></div>
+        </div>
+      </label>
     </ion-item>
   </ion-list>
 </ion-side-menu>
