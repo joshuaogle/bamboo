@@ -1,18 +1,18 @@
-angular.module('bamboo.services', [])
-
-.factory('Feeds', function() {
-  var feeds = [{
-    name: 'Dribbble'
-  }, {
-    name: 'Hacker News'
-  }, {
-    name: 'Designer News',
-  }, {
-    name: 'Behance',
-  }, {
-    name: 'Product Hunt',
-  }];
-
+angular.module("bamboo.services", []).factory("Feeds", function() {
+  var feeds;
+  feeds = [
+    {
+      name: "Dribbble"
+    }, {
+      name: "Hacker News"
+    }, {
+      name: "Designer News"
+    }, {
+      name: "Behance"
+    }, {
+      name: "Product Hunt"
+    }
+  ];
   return {
     all: function() {
       return feeds;
@@ -21,29 +21,32 @@ angular.module('bamboo.services', [])
       feeds.splice(feeds.indexOf(feed), 1);
     },
     get: function(itemId) {
-      for (var i = 0; i < feeds.length; i++) {
+      var i;
+      i = 0;
+      while (i < feeds.length) {
         if (feeds[i].id === parseInt(itemId)) {
           return feeds[i];
         }
+        i++;
       }
       return null;
     }
-  }
-})
-
-.factory('Posts', function() {
-  var posts = [{
-    name: '1'
-  }, {
-    name: '1'
-  }, {
-    name: '2',
-  }, {
-    name: '3',
-  }, {
-    name: '4',
-  }];
-
+  };
+}).factory("Posts", function() {
+  var posts;
+  posts = [
+    {
+      name: "1"
+    }, {
+      name: "1"
+    }, {
+      name: "2"
+    }, {
+      name: "3"
+    }, {
+      name: "4"
+    }
+  ];
   return {
     all: function() {
       return posts;
@@ -52,12 +55,15 @@ angular.module('bamboo.services', [])
       posts.splice(posts.indexOf(post), 1);
     },
     get: function(itemId) {
-      for (var i = 0; i < posts.length; i++) {
+      var i;
+      i = 0;
+      while (i < posts.length) {
         if (posts[i].id === parseInt(itemId)) {
           return posts[i];
         }
+        i++;
       }
       return null;
     }
-  }
-})
+  };
+});
