@@ -3,7 +3,8 @@ angular.module("bamboo", ["ionic"]).run(function($ionicPlatform) {
 });
 
 angular.module('bamboo').constant('config', {
-  "dribbbleAccessToken": "916a8ccf0526e148068589aa369f00e34084a34be8ed525faf699c1ef963cd45"
+  "dribbbleAccessToken": "916a8ccf0526e148068589aa369f00e34084a34be8ed525faf699c1ef963cd45",
+  "designerNewsAccessToken": "750ab22aac78be1c6d4bbe584f0e3477064f646720f327c5464bc127100a1a6d"
 });
 
 var FeedsController;
@@ -39,7 +40,7 @@ angular.module('bamboo').controller('MenuController', ['$scope', '$ionicSideMenu
 var PostsController;
 
 PostsController = (function() {
-  function PostsController($scope, $http, Dribbble, HackerNews) {
+  function PostsController($scope, $http, Dribbble, HackerNews, DesignerNews) {
     Dribbble.parseFeed().then(function(posts) {
       return $scope.dribbble = posts.data;
     });
@@ -55,6 +56,10 @@ PostsController = (function() {
       }
       return $scope.hacker_news = all_posts;
     });
+    DesignerNews.parseFeed().then(function(posts) {
+      console.log(posts.data.stories);
+      return $scope.designer_news = posts.data.stories;
+    });
     $scope.doRefresh = function() {
       return $http.get("/new-items").success(function(newItems) {
         return $scope.items = newItems;
@@ -68,7 +73,7 @@ PostsController = (function() {
 
 })();
 
-angular.module('bamboo').controller('PostsController', ['$scope', '$http', 'Dribbble', 'HackerNews', PostsController]);
+angular.module('bamboo').controller('PostsController', ['$scope', '$http', 'Dribbble', 'HackerNews', 'DesignerNews', PostsController]);
 
 var StacksController;
 
@@ -88,6 +93,34 @@ StacksController = (function() {
 })();
 
 angular.module('bamboo').controller('StacksController', ['$scope', '$ionicSlideBoxDelegate', 'pageTitle', StacksController]);
+
+var designerNewsFactory;
+
+designerNewsFactory = function($http, $q, $config) {
+  var Dribbble;
+  return new (Dribbble = (function() {
+    var deferred, designerNewsAPI;
+
+    function Dribbble() {}
+
+    deferred = $q.defer();
+
+    designerNewsAPI = "https://api-news.layervault.com/api/v1/stories?client_id=" + $config.designerNewsAccessToken;
+
+    Dribbble.prototype.parseFeed = function() {
+      return $http.get(designerNewsAPI).success(function(data, status, headers, config) {
+        return data;
+      }).error(function(data, status, headers, config) {
+        return console.error('Error fetching feed:', data);
+      });
+    };
+
+    return Dribbble;
+
+  })());
+};
+
+angular.module('bamboo').factory('DesignerNews', ["$http", "$q", "config", designerNewsFactory]);
 
 var dribbbleFactory;
 
