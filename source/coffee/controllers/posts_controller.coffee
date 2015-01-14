@@ -1,7 +1,15 @@
 class PostsController
-  constructor: ($scope, $http, Dribbble) ->
+  constructor: ($scope, $http, Dribbble, HackerNews) ->
+
     Dribbble.parseFeed().then (posts) ->
-      $scope.posts = posts.data
+      $scope.dribbble = posts.data
+
+    HackerNews.parseFeed().then (posts) ->
+      all_posts = []
+      for id in posts.data
+        HackerNews.parsePost(id).then (post) ->
+          all_posts.push post.data
+      $scope.hacker_news = all_posts
 
     $scope.doRefresh = ->
       $http
@@ -16,5 +24,6 @@ angular.module('bamboo')
     '$scope'
     '$http'
     'Dribbble'
+    'HackerNews'
     PostsController
   ])

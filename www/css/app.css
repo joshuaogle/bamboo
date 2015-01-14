@@ -6999,8 +6999,9 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-.pane, .view {
-  background: #F5F3F1; }
+.scroll-view {
+  background: #F5F3F1;
+  padding-top: 44px; }
 
 .item img {
   display: block; }
@@ -7008,6 +7009,20 @@ a.button {
 a {
   text-decoration: none;
   color: black; }
+
+.bar {
+  background-color: #fcfcfc;
+  opacity: 0.96; }
+  .bar .title[data-brand="dribbble"] {
+    color: #EC4989; }
+  .bar .title[data-brand="hacker_news"] {
+    color: #FF6600; }
+  .bar .title[data-brand="designer_news"] {
+    color: #3473D6; }
+  .bar .title[data-brand="behance"] {
+    color: #0099D5; }
+  .bar .title[data-brand="product_hunt"] {
+    color: #DC5425; }
 
 .side-menu .menu {
   background: #343D46; }
@@ -7030,17 +7045,6 @@ a {
   background-color: #0099D5; }
 .side-menu .toggle.brand-product_hunt input:checked + .track {
   background-color: #DC5425; }
-
-.bar .title[data-brand="dribbble"] {
-  color: #EC4989; }
-.bar .title[data-brand="hacker_news"] {
-  color: #FF6600; }
-.bar .title[data-brand="designer_news"] {
-  color: #3473D6; }
-.bar .title[data-brand="behance"] {
-  color: #0099D5; }
-.bar .title[data-brand="product_hunt"] {
-  color: #DC5425; }
 
 .stacks .stack-scroll {
   height: 100vh; }

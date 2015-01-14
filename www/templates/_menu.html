@@ -2,7 +2,7 @@
   <ion-list>
     <ion-item ng-repeat="feed in feeds" class="item item-toggle">
       {{feed.name}}
-      <label class="toggle brand-{{feed.class}}">
+      <label class="toggle" data-brand="{{feed.class}}">
         <input type="checkbox">
         <div class="track">
           <div class="handle"></div>

@@ -39,9 +39,21 @@ angular.module('bamboo').controller('MenuController', ['$scope', '$ionicSideMenu
 var PostsController;
 
 PostsController = (function() {
-  function PostsController($scope, $http, Dribbble) {
+  function PostsController($scope, $http, Dribbble, HackerNews) {
     Dribbble.parseFeed().then(function(posts) {
-      return $scope.posts = posts.data;
+      return $scope.dribbble = posts.data;
+    });
+    HackerNews.parseFeed().then(function(posts) {
+      var all_posts, id, _i, _len, _ref;
+      all_posts = [];
+      _ref = posts.data;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        id = _ref[_i];
+        HackerNews.parsePost(id).then(function(post) {
+          return all_posts.push(post.data);
+        });
+      }
+      return $scope.hacker_news = all_posts;
     });
     $scope.doRefresh = function() {
       return $http.get("/new-items").success(function(newItems) {
@@ -56,7 +68,7 @@ PostsController = (function() {
 
 })();
 
-angular.module('bamboo').controller('PostsController', ['$scope', '$http', 'Dribbble', PostsController]);
+angular.module('bamboo').controller('PostsController', ['$scope', '$http', 'Dribbble', 'HackerNews', PostsController]);
 
 var StacksController;
 
@@ -159,6 +171,43 @@ feedsFactory = function() {
 };
 
 angular.module('bamboo').factory('Feeds', [feedsFactory]);
+
+var hackerNewsFactory;
+
+hackerNewsFactory = function($http, $q) {
+  var hackerNews;
+  return new (hackerNews = (function() {
+    var deferred, topStoriesAPI;
+
+    function hackerNews() {}
+
+    deferred = $q.defer();
+
+    topStoriesAPI = "https://hacker-news.firebaseio.com/v0/topstories.json";
+
+    hackerNews.prototype.parseFeed = function() {
+      return $http.get(topStoriesAPI).success(function(data, status, headers, config) {
+        var posts;
+        return posts = [];
+      }).error(function(data, status, headers, config) {
+        return console.error('Error fetching feed:', data);
+      });
+    };
+
+    hackerNews.prototype.parsePost = function(id) {
+      return $http.get("https://hacker-news.firebaseio.com/v0/item/" + id + ".json").success(function(data, status, headers, config) {
+        return data;
+      }).error(function(data, status, headers, config) {
+        return console.error('Error fetching item:', data);
+      });
+    };
+
+    return hackerNews;
+
+  })());
+};
+
+angular.module('bamboo').factory('HackerNews', ["$http", "$q", hackerNewsFactory]);
 
 var pageTitleFactory,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
