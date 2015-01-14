@@ -25,7 +25,8 @@ angular.module('bamboo').controller('FeedsController', ['$scope', 'Feeds', Feeds
 var MenuController;
 
 MenuController = (function() {
-  function MenuController($scope, $ionicSideMenuDelegate) {
+  function MenuController($scope, $ionicSideMenuDelegate, Feeds) {
+    $scope.feeds = Feeds.all();
     $scope.toggleRightSideMenu = $ionicSideMenuDelegate.toggleRight();
   }
 
@@ -33,7 +34,7 @@ MenuController = (function() {
 
 })();
 
-angular.module('bamboo').controller('MenuController', ['$scope', '$ionicSideMenuDelegate', MenuController]);
+angular.module('bamboo').controller('MenuController', ['$scope', '$ionicSideMenuDelegate', 'Feeds', MenuController]);
 
 var PostsController;
 
@@ -60,15 +61,21 @@ angular.module('bamboo').controller('PostsController', ['$scope', '$http', 'Drib
 var StacksController;
 
 StacksController = (function() {
-  function StacksController($scope, Stacks) {
-    $scope.posts = Stacks.all();
+  function StacksController($scope, $ionicSlideBoxDelegate, pageTitle) {
+    $scope.change = function(index) {
+      var current, title;
+      title = document.querySelector(".title");
+      current = document.getElementsByClassName("stack")[index].dataset.title;
+      title.innerHTML = current;
+      return title.dataset.brand = current.toLowerCase().replace(" ", "_");
+    };
   }
 
   return StacksController;
 
 })();
 
-angular.module('bamboo').controller('StacksController', ['$scope', 'Stacks', StacksController]);
+angular.module('bamboo').controller('StacksController', ['$scope', '$ionicSlideBoxDelegate', 'pageTitle', StacksController]);
 
 var dribbbleFactory;
 
@@ -85,7 +92,6 @@ dribbbleFactory = function($http, $q, $config) {
 
     Dribbble.prototype.parseFeed = function() {
       return $http.get(dribbbleAPI).success(function(data, status, headers, config) {
-        console.log(data);
         return data;
       }).error(function(data, status, headers, config) {
         return console.error('Error fetching feed:', data);

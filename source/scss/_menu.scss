@@ -50,3 +50,25 @@
     }
   }
 }
+
+.bar .title {
+  &[data-brand="dribbble"] {
+    color: $dribbble;
+  }
+
+  &[data-brand="hacker_news"] {
+    color: $hacker_news;
+  }
+
+  &[data-brand="designer_news"] {
+    color: $designer_news;
+  }
+
+  &[data-brand="behance"] {
+    color: $behance;
+  }
+
+  &[data-brand="product_hunt"] {
+    color: $product_hunt;
+  }
+}

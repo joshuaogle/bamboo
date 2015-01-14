@@ -7000,7 +7000,7 @@ a.button {
   transition-duration: 0s; }
 
 .pane, .view {
-  background: #FAFAFA; }
+  background: #F5F3F1; }
 
 .item img {
   display: block; }
@@ -7030,3 +7030,17 @@ a {
   background-color: #0099D5; }
 .side-menu .toggle.brand-product_hunt input:checked + .track {
   background-color: #DC5425; }
+
+.bar .title[data-brand="dribbble"] {
+  color: #EC4989; }
+.bar .title[data-brand="hacker_news"] {
+  color: #FF6600; }
+.bar .title[data-brand="designer_news"] {
+  color: #3473D6; }
+.bar .title[data-brand="behance"] {
+  color: #0099D5; }
+.bar .title[data-brand="product_hunt"] {
+  color: #DC5425; }
+
+.stacks .stack-scroll {
+  height: 100vh; }

@@ -5,7 +5,6 @@ dribbbleFactory = ($http, $q, $config) ->
     parseFeed: ->
       $http.get(dribbbleAPI)
         .success (data, status, headers, config) ->
-          console.log data
           return data
 
         .error (data, status, headers, config) ->
