@@ -4,7 +4,8 @@ angular.module("bamboo", ["ionic"]).run(function($ionicPlatform) {
 
 angular.module('bamboo').constant('config', {
   "dribbbleAccessToken": "916a8ccf0526e148068589aa369f00e34084a34be8ed525faf699c1ef963cd45",
-  "designerNewsAccessToken": "750ab22aac78be1c6d4bbe584f0e3477064f646720f327c5464bc127100a1a6d"
+  "designerNewsAccessToken": "169eb4a714d3637da77b9e00fc7b57a963adf3c6b8e8fea1b3934414ffe0e42f",
+  "behanceAccessToken": "Raj8gqtcegp5ESa2shnvc3d0OcpWUaM8"
 });
 
 var FeedsController;
@@ -40,7 +41,7 @@ angular.module('bamboo').controller('MenuController', ['$scope', '$ionicSideMenu
 var PostsController;
 
 PostsController = (function() {
-  function PostsController($scope, $http, Dribbble, HackerNews, DesignerNews) {
+  function PostsController($scope, $http, Dribbble, HackerNews, DesignerNews, Behance) {
     Dribbble.parseFeed().then(function(posts) {
       return $scope.dribbble = posts.data;
     });
@@ -57,8 +58,10 @@ PostsController = (function() {
       return $scope.hacker_news = all_posts;
     });
     DesignerNews.parseFeed().then(function(posts) {
-      console.log(posts.data.stories);
       return $scope.designer_news = posts.data.stories;
+    });
+    Behance.parseFeed().then(function(posts) {
+      return $scope.behance = posts.data.projects;
     });
     $scope.doRefresh = function() {
       return $http.get("/new-items").success(function(newItems) {
@@ -73,12 +76,12 @@ PostsController = (function() {
 
 })();
 
-angular.module('bamboo').controller('PostsController', ['$scope', '$http', 'Dribbble', 'HackerNews', 'DesignerNews', PostsController]);
+angular.module('bamboo').controller('PostsController', ['$scope', '$http', 'Dribbble', 'HackerNews', 'DesignerNews', 'Behance', PostsController]);
 
 var StacksController;
 
 StacksController = (function() {
-  function StacksController($scope, $ionicSlideBoxDelegate, pageTitle) {
+  function StacksController($scope, $ionicSlideBoxDelegate) {
     $scope.change = function(index) {
       var current, title;
       title = document.querySelector(".title");
@@ -92,7 +95,42 @@ StacksController = (function() {
 
 })();
 
-angular.module('bamboo').controller('StacksController', ['$scope', '$ionicSlideBoxDelegate', 'pageTitle', StacksController]);
+angular.module('bamboo').controller('StacksController', ['$scope', '$ionicSlideBoxDelegate', StacksController]);
+
+var behanceFactory;
+
+behanceFactory = function($http, $q, $config) {
+  var Behance;
+  return new (Behance = (function() {
+    var behanceAPI, deferred;
+
+    function Behance() {}
+
+    deferred = $q.defer();
+
+    behanceAPI = "http://behance.net/v2/projects";
+
+    Behance.prototype.parseFeed = function() {
+      return $http({
+        method: 'jsonp',
+        url: behanceAPI,
+        params: {
+          client_id: $config.behanceAccessToken,
+          callback: 'JSON_CALLBACK'
+        }
+      }).success(function(data, status, headers, config) {
+        return data;
+      }).error(function(data, status, headers, config) {
+        return console.error('Error fetching feed:', data);
+      });
+    };
+
+    return Behance;
+
+  })());
+};
+
+angular.module('bamboo').factory('Behance', ["$http", "$q", "config", behanceFactory]);
 
 var designerNewsFactory;
 
@@ -105,10 +143,16 @@ designerNewsFactory = function($http, $q, $config) {
 
     deferred = $q.defer();
 
-    designerNewsAPI = "https://api-news.layervault.com/api/v1/stories?client_id=" + $config.designerNewsAccessToken;
+    designerNewsAPI = "https://api-news.layervault.com/api/v1/stories";
 
     Dribbble.prototype.parseFeed = function() {
-      return $http.get(designerNewsAPI).success(function(data, status, headers, config) {
+      return $http({
+        method: 'get',
+        url: designerNewsAPI,
+        params: {
+          client_id: $config.designerNewsAccessToken
+        }
+      }).success(function(data, status, headers, config) {
         return data;
       }).error(function(data, status, headers, config) {
         return console.error('Error fetching feed:', data);
@@ -133,10 +177,16 @@ dribbbleFactory = function($http, $q, $config) {
 
     deferred = $q.defer();
 
-    dribbbleAPI = "https://api.dribbble.com/v1/shots?access_token=" + $config.dribbbleAccessToken;
+    dribbbleAPI = "https://api.dribbble.com/v1/shots";
 
     Dribbble.prototype.parseFeed = function() {
-      return $http.get(dribbbleAPI).success(function(data, status, headers, config) {
+      return $http({
+        method: 'get',
+        url: dribbbleAPI,
+        params: {
+          access_token: $config.dribbbleAccessToken
+        }
+      }).success(function(data, status, headers, config) {
         return data;
       }).error(function(data, status, headers, config) {
         return console.error('Error fetching feed:', data);
@@ -241,34 +291,3 @@ hackerNewsFactory = function($http, $q) {
 };
 
 angular.module('bamboo').factory('HackerNews', ["$http", "$q", hackerNewsFactory]);
-
-var pageTitleFactory,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-pageTitleFactory = function() {
-  var PageTitle;
-  return new (PageTitle = (function() {
-    function PageTitle() {
-      this.clear = __bind(this.clear, this);
-      this.get = __bind(this.get, this);
-      this.set = __bind(this.set, this);
-    }
-
-    PageTitle.prototype.set = function(title) {
-      return this.title = title;
-    };
-
-    PageTitle.prototype.get = function() {
-      return this.title;
-    };
-
-    PageTitle.prototype.clear = function() {
-      return this.title = '';
-    };
-
-    return PageTitle;
-
-  })());
-};
-
-angular.module('bamboo').factory('pageTitle', [pageTitleFactory]);

@@ -1,14 +1,15 @@
-dribbbleFactory = ($http, $q, $config) ->
-  new class Dribbble
+behanceFactory = ($http, $q, $config) ->
+  new class Behance
     deferred = $q.defer()
-    dribbbleAPI = "https://api.dribbble.com/v1/shots"
+    behanceAPI = "http://behance.net/v2/projects"
     parseFeed: ->
       $http
-        method: 'get'
-        url: dribbbleAPI
+        method: 'jsonp'
+        url: behanceAPI
         params:
-          access_token: $config.dribbbleAccessToken
-          
+          client_id: $config.behanceAccessToken
+          callback: 'JSON_CALLBACK'
+
       .success (data, status, headers, config) ->
         return data
 
@@ -16,9 +17,9 @@ dribbbleFactory = ($http, $q, $config) ->
         console.error('Error fetching feed:', data)
 
 angular.module('bamboo')
-  .factory('Dribbble', [
+  .factory('Behance', [
     "$http"
     "$q"
     "config"
-    dribbbleFactory
+    behanceFactory
   ])

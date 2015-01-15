@@ -1,5 +1,5 @@
 class StacksController
-  constructor: ($scope, $ionicSlideBoxDelegate, pageTitle) ->
+  constructor: ($scope, $ionicSlideBoxDelegate) ->
     $scope.change = (index) ->
       title = document.querySelector(".title")
       current = document.getElementsByClassName("stack")[index].dataset.title
@@ -10,6 +10,5 @@ angular.module('bamboo')
   .controller('StacksController', [
     '$scope'
     '$ionicSlideBoxDelegate'
-    'pageTitle'
     StacksController
   ])
